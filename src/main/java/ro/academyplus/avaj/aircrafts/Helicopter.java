@@ -1,7 +1,6 @@
 package ro.academyplus.avaj.aircrafts;
 
 import ro.academyplus.avaj.environment.Coordinates;
-import ro.academyplus.avaj.environment.WeatherProvider;
 import ro.academyplus.avaj.towers.WeatherTower;
 import ro.academyplus.avaj.exceptions.IllegalWeatherException;
 
@@ -18,7 +17,7 @@ public class Helicopter extends Aircraft implements Flyable {
         int longitude = coordinates.getLongitude();
         int latitude = coordinates.getLatitude();
         int height = coordinates.getHeight();
-        String weather = WeatherProvider.getProvider().getCurrentWeather(coordinates);
+        String weather = weatherTower.getWeather(coordinates);
         switch (weather) {
             case "SUN" :
                 logger.log(this + ": This is hot.");
