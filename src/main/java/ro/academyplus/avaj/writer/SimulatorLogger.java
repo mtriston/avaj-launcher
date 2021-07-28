@@ -24,6 +24,7 @@ public class SimulatorLogger {
     }
 
     public void log(String message) {
+        message += "\n";
         try {
             Files.write(Paths.get(logFile), message.getBytes(), StandardOpenOption.APPEND);
         } catch (IOException e) {
