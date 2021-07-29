@@ -1,5 +1,7 @@
 package ro.academyplus.avaj.environment;
 
+import java.util.Random;
+
 public class WeatherProvider {
     private static WeatherProvider weatherProvider = new WeatherProvider();
     private static String[] weather = {"SUN", "RAIN", "FOG", "SNOW"};
@@ -12,7 +14,7 @@ public class WeatherProvider {
     }
 
     public String getCurrentWeather(Coordinates coordinates) {
-        int sum = coordinates.getLongitude() + coordinates.getLatitude() + coordinates.getHeight();
-        return weather[sum % weather.length];
+        int i = new Random().nextInt(coordinates.getLongitude() + coordinates.getLatitude() + coordinates.getHeight());
+        return weather[i % weather.length];
     }
 }
