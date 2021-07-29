@@ -1,14 +1,14 @@
 package ro.academyplus.avaj.aircrafts;
 
 import ro.academyplus.avaj.environment.Coordinates;
-import ro.academyplus.avaj.towers.WeatherTower;
 import ro.academyplus.avaj.exceptions.IllegalWeatherException;
+import ro.academyplus.avaj.towers.WeatherTower;
 
-public class Helicopter extends Aircraft implements Flyable {
-
+public class JetPlane extends Aircraft implements Flyable {
+    
     private WeatherTower weatherTower;
 
-    public Helicopter(String name, Coordinates coordinates) {
+    public JetPlane(String name, Coordinates coordinates) {
         super(name, coordinates);
     }
 
@@ -20,21 +20,21 @@ public class Helicopter extends Aircraft implements Flyable {
         String weather = weatherTower.getWeather(coordinates);
         switch (weather) {
             case "SUN" :
-                logger.log(this + ": This is hot.");
-                longitude += 10;
+                logger.log(this + ": The sun shines directly into the eyes");
+                latitude += 10;
                 height = Math.min(height + 2, 100);
                 break;
             case "RAIN" :
-                logger.log(this + ": It’s raining cats and dogs!");
-                longitude += 5;
+                logger.log(this + ":  It's raining. Better watch out for lightings.");
+                latitude += 5;
                 break;
             case "FOG" :
-                logger.log(this + ": I can't see my own nose.");
-                longitude += 1;
+                logger.log(this + ": I must go in, the fog is rising.");
+                latitude += 1;
                 break;
             case "SNOW" :
-                logger.log(this + ": My rotor is going to freeze!");
-                height = Math.max(0, height - 12);
+                logger.log(this + ": : OMG! Winter is coming!");
+                height = Math.max(0, height - 7);
                 break;
             default :
                 throw new IllegalWeatherException("Unknown weather '" + weather + "'");
@@ -54,6 +54,6 @@ public class Helicopter extends Aircraft implements Flyable {
 
     @Override
     public String toString() {
-        return "Helicopter#" + name + "(" + id + ")";
+        return "JetPlane#" + name + "(" + id + ")";
     }
 }
