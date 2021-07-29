@@ -7,7 +7,7 @@ import ro.academyplus.avaj.exceptions.IllegalCoordinatesException;
 public class AircraftFactory {
     public static Flyable newAircraft(String type, String name, int longitude, int latitude, int height) {
         if (longitude <= 0 || latitude <= 0 || height < 0 || height > 100) {
-            throw new IllegalCoordinatesException();
+            throw new IllegalCoordinatesException(String.format("%d %d %d", longitude, latitude, height));
         }
         Coordinates coordinates = new Coordinates(longitude, latitude, height);
         switch (type.toLowerCase()) {
@@ -18,7 +18,7 @@ public class AircraftFactory {
             case "baloon" :
                 return new Baloon(name, coordinates);
             default :
-                throw new IllegalAircraftTypeException();
+                throw new IllegalAircraftTypeException(type);
         }
     }
 }
