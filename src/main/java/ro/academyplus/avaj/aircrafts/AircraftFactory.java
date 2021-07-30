@@ -1,5 +1,8 @@
 package ro.academyplus.avaj.aircrafts;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import ro.academyplus.avaj.environment.Coordinates;
 import ro.academyplus.avaj.exceptions.IllegalAircraftTypeException;
 import ro.academyplus.avaj.exceptions.IllegalCoordinatesException;
@@ -10,15 +13,33 @@ public class AircraftFactory {
             throw new IllegalCoordinatesException(String.format("%d %d %d", longitude, latitude, height));
         }
         Coordinates coordinates = new Coordinates(longitude, latitude, height);
-        switch (type.toLowerCase()) {
-            case "helicopter" :
-                return new Helicopter(name, coordinates);
-            case "jetplane" :
-                return new JetPlane(name, coordinates);
-            case "baloon" :
-                return new Baloon(name, coordinates);
-            default :
-                throw new IllegalAircraftTypeException(type);
-        }
+        if (type.equalsIgnoreCase("helicopter") || type.equalsIgnoreCase(getHash("Helicopter")))
+            return new Helicopter(name, coordinates);
+        if (type.equalsIgnoreCase("jetplane") || type.equalsIgnoreCase(getHash("JetPlane")))
+            return new JetPlane(name, coordinates);
+        if (type.equalsIgnoreCase("baloon") || type.equalsIgnoreCase(getHash("Baloon")))
+            return new Baloon(name, coordinates);
+        throw new IllegalAircraftTypeException(type);
     }
+
+    private static String getHash(String str) {
+        MessageDigest md;
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return new String();
+        }
+        md.update(str.getBytes());
+        byte[] digest = md.digest();
+        String myHash = byteArrayToHex(digest);
+        return myHash;
+    }
+
+    private static String byteArrayToHex(byte[] a) {
+        StringBuilder sb = new StringBuilder(a.length * 2);
+        for(byte b : a)
+           sb.append(String.format("%02x", b));
+        return sb.toString();
+     }
 }
