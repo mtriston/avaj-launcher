@@ -2,13 +2,12 @@ package ro.academyplus.avaj.parser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import ro.academyplus.avaj.aircrafts.AircraftFactory;
 import ro.academyplus.avaj.aircrafts.Flyable;
 import ro.academyplus.avaj.exceptions.IllegalCoordinatesException;
+import ro.academyplus.avaj.exceptions.InvalidFormatException;
 import ro.academyplus.avaj.exceptions.InvalidSimulationCountException;
 import ro.academyplus.avaj.simulator.Simulator;
 
@@ -22,12 +21,14 @@ public class Parser {
 
     private int parseNumOfIterations() {
         int n;
-        String firstLine = "";
+        String firstLine = null;
         try {
             firstLine = scanner.nextLine();
             n = Integer.parseInt(firstLine);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             throw new InvalidSimulationCountException(firstLine);
+        } catch (NoSuchElementException e) {
+            throw new InvalidFormatException("scenario file is blank.");
         }
         if (n <= 0) {
             throw new InvalidSimulationCountException(firstLine);
@@ -36,9 +37,13 @@ public class Parser {
     }
 
     private List<Flyable> parseAircrafts() {
-        List<Flyable> aircrafts = new LinkedList<>();
+        List<Flyable> aircrafts = new ArrayList<>();
         while (scanner.hasNextLine()) {
-            String[] tokens = scanner.nextLine().split(" ");
+            String line = scanner.nextLine();
+            String[] tokens = line.split(" ");
+            if (tokens.length != 5) {
+                throw new InvalidFormatException(line);
+            }
             try {
                 aircrafts.add(
                     AircraftFactory.newAircraft(

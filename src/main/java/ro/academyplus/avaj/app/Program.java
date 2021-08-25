@@ -17,6 +17,8 @@ public class Program {
             simulator.run();
         } catch (FileNotFoundException e) {
             System.err.println("Invalid scenario file: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
 }

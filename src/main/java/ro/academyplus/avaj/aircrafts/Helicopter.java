@@ -2,7 +2,7 @@ package ro.academyplus.avaj.aircrafts;
 
 import ro.academyplus.avaj.environment.Coordinates;
 import ro.academyplus.avaj.towers.WeatherTower;
-import ro.academyplus.avaj.exceptions.IllegalWeatherException;
+import ro.academyplus.avaj.exceptions.InvalidWeatherException;
 
 public class Helicopter extends Aircraft implements Flyable {
 
@@ -37,7 +37,7 @@ public class Helicopter extends Aircraft implements Flyable {
                 height = Math.max(0, height - 12);
                 break;
             default :
-                throw new IllegalWeatherException("Unknown weather '" + weather + "'");
+                throw new InvalidWeatherException("Unknown weather '" + weather + "'");
         }
         this.coordinates.setCoordinates(longitude, latitude, height);
         if (height == 0) {

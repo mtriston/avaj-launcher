@@ -4,7 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import ro.academyplus.avaj.environment.Coordinates;
-import ro.academyplus.avaj.exceptions.IllegalAircraftTypeException;
+import ro.academyplus.avaj.exceptions.InvalidAircraftTypeException;
 import ro.academyplus.avaj.exceptions.IllegalCoordinatesException;
 
 public class AircraftFactory {
@@ -19,7 +19,7 @@ public class AircraftFactory {
             return new JetPlane(name, coordinates);
         if (type.equalsIgnoreCase("baloon") || type.equalsIgnoreCase(getHash("Baloon")))
             return new Baloon(name, coordinates);
-        throw new IllegalAircraftTypeException(type);
+        throw new InvalidAircraftTypeException(type);
     }
 
     private static String getHash(String str) {
@@ -28,12 +28,10 @@ public class AircraftFactory {
             md = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            return new String();
+            return "";
         }
         md.update(str.getBytes());
-        byte[] digest = md.digest();
-        String myHash = byteArrayToHex(digest);
-        return myHash;
+        return byteArrayToHex(md.digest());
     }
 
     private static String byteArrayToHex(byte[] a) {
